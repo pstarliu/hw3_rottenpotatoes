@@ -1,11 +1,22 @@
 # Add a declarative step here for populating the DB with movies.
 
 Given /the following movies exist/ do |movies_table|
+  # A very simple way of doing homework
+  # Movie.create!(movies_table.hashes)
+
+  # Or, a way with slightly more work
   movies_table.hashes.each do |movie|
+    Movie.create!(movie)
     # each returned element will be a hash whose key is the table header.
     # you should arrange to add that movie to the database here.
   end
-  assert false, "Unimplmemented"
+  # assert false, "Unimplmemented"
+end
+
+Given /^(?:|I ) check the following ratings: (.*)/ do |rating_list|
+  rating_list.split do |rating|
+    When %Q{I check("ratings_#{rating}")}
+  end
 end
 
 # Make sure that one string (regexp) occurs before or after another one

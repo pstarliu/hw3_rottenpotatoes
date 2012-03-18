@@ -13,11 +13,11 @@ Given /the following movies exist/ do |movies_table|
   # assert false, "Unimplmemented"
 end
 
-Given /^(?:|I ) check the following ratings: (.*)/ do |rating_list|
-  rating_list.split.each do |rating|
-    When %Q{I check "ratings_#{rating}"}
-  end
-end
+# Given /^(?:|I ) check the following ratings: (.*)/ do |rating_list|
+#   rating_list.split.each do |rating|
+#     When %Q{I check "ratings_#{rating}"}
+#   end
+# end
 
 # Make sure that one string (regexp) occurs before or after another one
 #   on the same page
@@ -28,17 +28,21 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   assert false, "Unimplmemented"
 end
 
+Then /I should see all of the movies/ do
+  # Should try solution from https://www.coursera.org/saas/forum/thread?thread_id=1390
+  assert movies_list.rows.should == 10
+end
+
 # Make it easier to express checking or unchecking several boxes at once
 #  "When I uncheck the following ratings: PG, G, R"
 #  "When I check the following ratings: G"
-
 When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
   if uncheck == nil
-    rating_list.split.each do |rating|
-      step %Q{I check "ratings_#{rating}"}
+    rating_list.split(',').each do |rating|
+      step %Q{I check "ratings_#{rating.strip}"}
     end
   end
 end

@@ -48,8 +48,8 @@ Scenario: no ratings selected
   # see assignment
 
 Scenario: all ratings selected
-  # Given I check the following ratings: G, PG, R
-  Given I check the following ratings: G
+  Given I check the following ratings: G, PG, PG-13, R
   And I press "ratings_submit"
-  Then I should see "Aladdin"
+  # Then I should see "Aladdin"
+  Then I should see all of the movies
 

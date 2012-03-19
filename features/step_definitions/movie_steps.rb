@@ -25,12 +25,23 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.content  is the entire content of the page as a string.
-  assert false, "Unimplmemented"
+  first_position = page.body.index(e1)
+  second_position = page.body.index(e2)
+  assert first_position < second_position
+  #regexp = Regexp.new ".*#{e1}.*#{e2}"
+  #assert page.body.should =~ regexp
 end
 
-Then /I should see all of the movies/ do
+Then /I should see all of the movies$/ do
   # Should try solution from https://www.coursera.org/saas/forum/thread?thread_id=1390
-  assert movies_list.rows.should == 10
+  assert page.should have_selector('table tbody tr', :count => 10)
+  #assert movies_list.rows.should == 10
+end
+
+Then /I should see none of the movies$/ do
+  # Should try solution from https://www.coursera.org/saas/forum/thread?thread_id=1390
+  assert page.should have_selector('table tbody tr', :count => 0)
+  #assert movies_list.rows.should == 0
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -43,6 +54,10 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   if uncheck == nil
     rating_list.split(',').each do |rating|
       step %Q{I check "ratings_#{rating.strip}"}
+    end
+  else
+    rating_list.split(',').each do |rating|
+      step %Q{I uncheck "ratings_#{rating.strip}"}
     end
   end
 end

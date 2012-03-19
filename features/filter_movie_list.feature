@@ -45,11 +45,12 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
   And I should not see "Chicken Run"
 
 Scenario: no ratings selected
-  # see assignment
-
+  # Given I uncheck the following ratings: G, PG, PG-13, R
+  # And I press "ratings_submit"
+  # Then I should see none of the movies
+  
 Scenario: all ratings selected
   Given I check the following ratings: G, PG, PG-13, R
   And I press "ratings_submit"
-  # Then I should see "Aladdin"
   Then I should see all of the movies
 
